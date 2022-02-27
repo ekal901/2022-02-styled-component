@@ -14,6 +14,17 @@ const colorStyles = css`
       &:active {
         ${darken(0.1, selectedColor)}
       }
+      ${(props) =>
+        props.outline &&
+        css`
+          color: ${selectedColor};
+          background: none;
+          border: 1px solid ${selectedColor};
+          &:hover {
+            background: ${selectedColor};
+            color: white;
+          }
+        `}
     `;
   }}
 `;
@@ -40,6 +51,20 @@ const sizeStyles = css`
     font-size: ${sizes[size].fontSize};
   `}
 `;
+
+const fullWidthStyle = css`
+  ${(props) =>
+    props.fullwidth &&
+    css`
+      width: 100%;
+      justify-content: center;
+      & + & {
+        margin-left: 0;
+        margin-top: 1rem;
+      }
+    `}
+`;
+
 const StyledButton = styled.button`
   display: inline-flex;
   outline: none;
@@ -52,17 +77,24 @@ const StyledButton = styled.button`
   padding-right: 1rem;
   align-items: center;
 
-  ${sizeStyles}
-  ${colorStyles}
-
   & + & {
     margin-left: 1rem;
   }
+
+  ${colorStyles}
+  ${sizeStyles}
+  ${fullWidthStyle}
 `;
 
-const Button = ({ children, color, size, ...rest }) => {
+const Button = ({ children, color, size, outline, fullwidth, ...rest }) => {
   return (
-    <StyledButton color={color} size={size} {...rest}>
+    <StyledButton
+      color={color}
+      size={size}
+      outline={outline}
+      fullwidth={fullwidth}
+      {...rest}
+    >
       {children}
     </StyledButton>
   );
